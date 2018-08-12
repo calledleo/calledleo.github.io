@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Simple</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+<div class="main">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">home</a></li>
+            <li><a href="/#/tags">tags</a></li>
+            <li><a href="/#/archive">archive</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+2018.06.11～2018.07.08
+
+ ![](http://calledleo.github.io/img/201806110708.png)
+
+
+本月没有番茄记录
+
+倒是在怀疑这玩意还写不写了，每个月都是补写的
+
+今天夜间是8月12号了，而且从7月20号的日记记录目前都是空白的，要靠回忆把他们补起来。
+似乎丢失了写这个的初衷。
+
+当时是希望自己好好珍惜时间，提升自己，现在大部分的时间都在游戏上了，不过这段时间运动多了，算是一点点的安慰吧。
+
+端午节病了一场，3天疯狂运动，好得很快，但是假期也跟着这重感冒一起结束了。
+
+这个月和刘的交流多了起来，但是觉得自己也还是那么心如止水般，没太大意思啊。漫画看了我的英雄学院、JOJO，电影看了我不是药神和动物世界，现在的生活真的过得有点无聊，没有什么追求，没有什么进步，完全丢失了自己，开心不起来。
+
+附图：
+
+ ![](http://calledleo.github.io/img/201806110617.png)
+ ![](http://calledleo.github.io/img/201806180624.png)
+ ![](http://calledleo.github.io/img/201806240701.png)
+ ![](http://calledleo.github.io/img/201807020708.png) 
+![](http://calledleo.github.io/img/201807020708.png)
+<!-- markdown end -->
+</div>
+<div class="entry" id="main">
+<!-- content -->
+<p>2018.06.11～2018.07.08</p>
+
+<p><img src="http://calledleo.github.io/img/201806110708.png" alt="" title=""></p>
+
+<p>本月没有番茄记录</p>
+
+<p>倒是在怀疑这玩意还写不写了，每个月都是补写的</p>
+
+<p>今天夜间是8月12号了，而且从7月20号的日记记录目前都是空白的，要靠回忆把他们补起来。
+似乎丢失了写这个的初衷。</p>
+
+<p>当时是希望自己好好珍惜时间，提升自己，现在大部分的时间都在游戏上了，不过这段时间运动多了，算是一点点的安慰吧。</p>
+
+<p>端午节病了一场，3天疯狂运动，好得很快，但是假期也跟着这重感冒一起结束了。</p>
+
+<p>这个月和刘的交流多了起来，但是觉得自己也还是那么心如止水般，没太大意思啊。漫画看了我的英雄学院、JOJO，电影看了我不是药神和动物世界，现在的生活真的过得有点无聊，没有什么追求，没有什么进步，完全丢失了自己，开心不起来。</p>
+
+<p>附图：</p>
+
+<p><img src="http://calledleo.github.io/img/201806110617.png" alt="" title="">
+ <img src="http://calledleo.github.io/img/201806180624.png" alt="" title="">
+ <img src="http://calledleo.github.io/img/201806240701.png" alt="" title="">
+ <img src="http://calledleo.github.io/img/201807020708.png" alt="" title=""> 
+<img src="http://calledleo.github.io/img/201807020708.png" alt="" title=""></p>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer">
+		<p>© Copyright 2014 by isnowfy, Designed by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "timer45.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+</body>
+</html>
